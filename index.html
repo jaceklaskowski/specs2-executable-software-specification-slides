@@ -376,9 +376,7 @@ class ScalaCheckSpec extends Specification with ScalaCheck { def is = s2"""
               <li>Use the resulting Prop as your example body.</li>
             </ul>
           </section>
-
 				</section>
-
 
         <section>
           <h2>HTML output for specifications</h2>
@@ -448,6 +446,138 @@ libraryDependencies += "org.specs2" %% "specs2-html" % "3.0" % "test"
             <img width="70%" src="images/specs-specificationwithforms-html.png">
           </section>
 
+        </section>
+
+        <section>
+          <h2>Groups of examples</h2>
+
+          <section>
+            <h3>Use cases</h3>
+            <ul style="text-align: left;">
+              <li>Group "traits" from <code>g1</code> to <code>g22</code></li>
+            </ul>
+          </section>
+
+          <section>
+            <pre style="max-width: none; width: 110%"><code class="scala">
+import org.specs2._
+import specification.Grouped
+
+class GroupedSpecification extends Specification with Grouped { def is =  s2"""
+
+  first example in first group                                        ${g1.e1}
+  first example in second group                                       ${g2.e1}
+  first example in third group                                        ${g3.e1}
+  """
+
+  // group of examples with a description for the group
+  "second group of examples" - new g2 {
+  }
+}            </code></pre>
+            <p class="fragment roll-in">Note no <code>e1</code>'s in each group!</p>
+          </section>
+
+          <section>
+            <pre><code class="scala">
+[info] GroupedSpecification
+[info]
+[info]   * first example in first group  - PENDING
+[info]   * first example in second group  - PENDING
+[info]   * first example in third group  - PENDING
+[info]
+[info] Total for specification GroupedSpecification
+[info] Finished in 7 ms
+[info] 3 examples, 0 failure, 0 error, 3 pending
+            </code></pre>
+            <p class="fragment roll-in">All pending examples are marked as <b>PENDING</b>.</p>
+          </section>
+        </section>
+
+        <section>
+          <h2>Auto-numbered examples</h2>
+
+          <section>
+            <h3>Use cases</h3>
+            <ul style="text-align: left;">
+              <li>Extension to "Groups of examples"</li>
+              <li>Separate specification from examples (code)</li>
+            </ul>
+          </section>
+
+          <section>
+            <pre style="max-width: none; width: 110%"><code class="scala">
+import org.specs2._
+import specification._
+
+class BulletedExamplesSpec extends script.Specification with Groups { def is = """
+  This is an introduction
+
+  First section
+  =============
+
+  A bit more text there.
+   + and the first example
+   + and the second example
+
+  Second section
+  =============
+
+  Then another section
+   + and the third example
+   + and the fourth example
+
+"""
+
+  "first section" - new group {
+    eg := 1 must_== 1
+    eg := 1 must_== 1
+  }
+
+  "second section" - new group {
+    eg := 1 must_== 1
+  }
+}
+            </code></pre>
+            <p class="fragment roll-in">Note no code (example) in specification!</p>
+          </section>
+
+          <section>
+            <pre><code class="scala">
+[info] BulletedExamplesSpec
+[info]
+[info]   This is an introduction
+[info]
+[info]   First section
+[info]   =============
+[info]
+[info]   A bit more text there.
+[info]    + and the first example
+[info]    + and the second example
+[info]
+[info]   Second section
+[info]   =============
+[info]
+[info]   Then another section
+[info]    + and the third example
+[info]    * and the fourth example  - PENDING - g2.e2
+[info]
+[info] Total for specification BulletedExamplesSpec
+[info] Finished in 56 ms
+[info] 4 examples, 0 failure, 0 error, 1 pending
+            </code></pre>
+            <p class="fragment roll-in">All pending examples are marked as <b>PENDING</b>.</p>
+          </section>
+          <section>
+            <h3>Structure</h3>
+            <ul>
+              <li>Extend <code>script.Specification</code> and <code>Groups</code> traits.</li>
+              <li>Nothing is interpolated in the text that defines the <code>is</code> method.</li>
+              <li>groups are anonymous, just called <code>group</code>.</li>
+              <li>examples are anonymous, just called <code>eg</code>.</li>
+              <li>Markdown header marks a group</li>
+              <li>items <code>+</code> are examples</li>
+            </ul>
+          </section>
         </section>
 
 				<section data-background-image="images/end.jpg">
