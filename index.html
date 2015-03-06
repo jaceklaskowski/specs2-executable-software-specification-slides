@@ -100,9 +100,8 @@
 						<p><b>build.sbt</b></p>
 						<pre style="max-width: none; width: 100%"><code class="scala">
 resolvers += "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases"
-libraryDependencies += "org.specs2" %% "specs2-core" % "2.4.16" % "test"
+libraryDependencies += "org.specs2" %% "specs2-core" % "3.0" % "test"
 						</code></pre>
-            <p>Milestone version: <b>3.0-M2</b></p>
 						<aside class="notes">Acceptance specification style</aside>
 					</section>
 				</section>
@@ -151,6 +150,7 @@ class DataTableSpec extends Specification with DataTables { def is = s2"""
           </section>
 
 					<section>
+            <br>
             <br>
             <pre><code>
 [info] DataTableSpec
@@ -203,7 +203,6 @@ class AutoExampleSpec extends Specification { def is = s2"""
       ${ "Hello".capitalize       === "Hello" }
       ${ "hello world".capitalize === "Hello world" }
   """
-
 }
             </code></pre>
           </section>
@@ -242,7 +241,7 @@ s2"""
             <p><b>build.sbt</b></p>
             <pre style="max-width: none; width: 100%"><code class="scala">
 resolvers += "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases"
-libraryDependencies += "org.specs2" %% "specs2-form" % "2.4.16" % "test"
+libraryDependencies += "org.specs2" %% "specs2-form" % "3.0" % "test"
             </code></pre>
 
             <aside class="notes">Acceptance specification style</aside>
@@ -301,22 +300,6 @@ class SpecificationWithForms extends Specification with specification.Forms { de
 						</ul>
 					</section>
 
-          <section>
-            <h3>Structure</h3>
-            <ul>
-              <li>Built by creating <b>Fields</b> or <b>Props</b> and placing them on rows.</li>
-              <li>A <b>Field</b> is simply a label and a value.
-                <ul>
-                  <li>displays regular information</li>
-                  <li><b>field(value)</b></li>
-                  <li><b>field(label, value)</b></li>
-                  <li><b>field(label, field1, field2, ...)</b></li>
-                </ul>
-              </li>
-              <li>Row values separated with <b>!</b> (<i>bang</i>).</li>
-            </ul>
-          </section>
-
 				</section>
 
 				<section>
@@ -327,7 +310,7 @@ class SpecificationWithForms extends Specification with specification.Forms { de
             <p><b>build.sbt</b></p>
             <pre style="max-width: none; width: 100%"><code class="scala">
 resolvers += "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases"
-libraryDependencies += "org.specs2" %% "specs2-scalacheck" % "2.4.16" % "test"
+libraryDependencies += "org.specs2" %% "specs2-scalacheck" % "3.0" % "test"
             </code></pre>
 
             <aside class="notes">...</aside>
@@ -356,7 +339,6 @@ class ScalaCheckSpec extends Specification with ScalaCheck { def is = s2"""
     substring  ${ prop { (a: String, b: String) => (a+b).substring(a.length) === b } }
     addition and multiplication are related ${ prop { (a: Int) => a + a == 2 * a } }
   """
-
 }
             </code></pre>
             <p class="fragment roll-in">Note the <b>4</b> examples only.</p>
@@ -405,10 +387,33 @@ class ScalaCheckSpec extends Specification with ScalaCheck { def is = s2"""
             <p><b>build.sbt</b></p>
             <pre style="max-width: none; width: 100%"><code class="scala">
 resolvers += "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases"
-libraryDependencies += "org.specs2" %% "specs2-html" % "2.4.16" % "test"
+libraryDependencies += "org.specs2" %% "specs2-html" % "3.0" % "test"
             </code></pre>
 
             <aside class="notes">...</aside>
+          </section>
+
+          <section>
+            <br>
+            <br>
+            <pre style="max-width: none; width: 100%"><code>
+➜  specs2-sandbox  sbt "testOnly SpecificationWithForms -- html"
+[info] Loading global plugins from /Users/jacek/.sbt/0.13/plugins
+[info] Loading project definition from /Users/jacek/dev/sandbox/specs2-sandbox/project
+[info] Set current project to specs2-sandbox (in build file:/Users/jacek/dev/sandbox/specs2-sandbox/)
+[error] the pandoc executable is not available at: pandoc
+[error] Error: Total 1, Failed 0, Errors 1, Passed 0
+[error] Error during tests:
+[error]   SpecificationWithForms
+[error] (test:testOnly) sbt.TestsFailedException: Tests unsuccessful
+[error] Total time: 1 s, completed Mar 6, 2015 11:49:19 PM
+            </code></pre>
+            <p class="fragment roll-in" style="max-width: none; width: 100%">
+              Mind the errors when the pandoc executable is not available at: pandoc
+            </p>
+            <p class="fragment roll-in" style="max-width: none; width: 100%">
+              <a href="http://johnmacfarlane.net/pandoc/">http://johnmacfarlane.net/pandoc/</a> - a universal document converter
+            </p>
           </section>
 
           <section>
@@ -417,8 +422,8 @@ libraryDependencies += "org.specs2" %% "specs2-html" % "2.4.16" % "test"
 [info] Loading global plugins from /Users/jacek/.sbt/0.13/plugins
 [info] Loading project definition from /Users/jacek/dev/sandbox/specs2-sandbox/project
 [info] Set current project to specs2-sandbox (in build file:/Users/jacek/dev/sandbox/specs2-sandbox/)
-[info] Passed: Total 1, Failed 0, Errors 0, Passed 1
-[success] Total time: 2 s, completed Jan 30, 2015 11:56:59 AM
+[info] Passed: Total 0, Failed 0, Errors 0, Passed 0
+[success] Total time: 1 s, completed Mar 6, 2015 11:54:35 PM
             </code></pre>
             <pre class="fragment roll-in" style="max-width: none; width: 100%"><code>
 ➜  specs2-sandbox  open target/specs2-reports/SpecificationWithForms.html
