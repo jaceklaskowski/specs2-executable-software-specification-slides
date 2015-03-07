@@ -95,6 +95,17 @@
 					</section>
 				</section>
 
+        <section data-transition="zoom" data-markdown>
+          <script type="text/template">
+            ## Vocabulary
+
+* **Acceptance Specification** (BDD)
+* **Example** (BDD)
+* **Expectation** (BDD)
+* **Example description** (specs2)
+          </script>
+        </section>
+
 				<section>
 					<h2>How to get started</h2>
 
@@ -186,15 +197,12 @@ class DataTableSpec extends Specification with DataTables { def is = s2"""
 					<section>
 						<h3>Use cases</h3>
 						<ul style="text-align: left;">
-							<li>Useful when examples are so self-descriptive that a textual description feels redundant.</li>
-              <li>Demonstrating the use of a DSL or an API.</li>
-              <li>Macros to capture code expressions inside brackets {}.</li>
+							<li>Examples are so self-descriptive that a textual description feels redundant</li>
+              <li>Demonstrating the use of a DSL or an API</li>
 						</ul>
 					</section>
 
           <section>
-            <br>
-            <br>
             <pre style="max-width: none; width: 100%"><code class="scala">
 import org.specs2._
 
@@ -202,34 +210,35 @@ class AutoExampleSpec extends Specification { def is = s2"""
 
     The `capitalize` method verifies
       ${ "hello".capitalize       === "Hello" }
-      ${ "Hello".capitalize       === "Hello" }
-      ${ "hello world".capitalize === "Hello world" }
+      ${ success }
   """
 }
             </code></pre>
+            <ul class="fragment">
+              <li>Note the space between <code>capitalize</code> and <code>===</code></li>
+              <li>Uses <code>success</code> from specs2</li>
+            </ul>
           </section>
 
           <section>
             <br>
             <pre><code class="scala">
 s2"""
-  The `capitalize` method verifies
-    ${ "hello".capitalize       === "Hello" }
-    ${ "Hello".capitalize       === "Hello" }
-    ${ "hello world".capitalize === "Hello world" }
+    The `capitalize` method verifies
+      ${ "hello".capitalize       === "Hello" }
+      ${ success }
 """
             </code></pre>
             <pre class="fragment roll-in"><code class="scala">
 [info] AutoExampleSpec
-[info]
+[info] 
 [info]     The `capitalize` method verifies
-[info]       + "hello".capitalize       === "Hello"
-[info]       + "Hello".capitalize       === "Hello"
-[info]       + "hello world".capitalize === "Hello world"
-[info]
+[info]        + "hello".capitalize       === "Hello" 
+[info]        + success 
+[info] 
 [info] Total for specification AutoExampleSpec
-[info] Finished in 32 ms
-[info] 3 examples, 0 failure, 0 error
+[info] Finished in 35 ms
+[info] 2 examples, 0 failure, 0 error
             </code></pre>
           </section>
 
@@ -451,44 +460,45 @@ libraryDependencies += "org.specs2" %% "specs2-html" % "3.0" % "test"
         </section>
 
         <section>
-          <h2>Groups of examples</h2>
+          <h2>Example groups</h2>
 
           <section>
-            <h3>Use cases</h3>
+            <h3>Features</h3>
             <ul style="text-align: left;">
-              <li>Group "traits" from <code>g1</code> to <code>g22</code></li>
+              <li>Standard names for examples in Acceptance specifications.</li>
+              <li>No need to think of names for examples!</li>
+              <li>No need to use the auto-generated example names in specification!</li>
             </ul>
           </section>
 
           <section>
+            <br><br>
+            <p>(With explicit auto-generated example names)</p>
             <pre style="max-width: none; width: 110%"><code class="scala">
 import org.specs2._
 import specification.Grouped
 
 class GroupedSpecification extends Specification with Grouped { def is =  s2"""
 
-  first example in first group                                        ${g1.e1}
-  first example in second group                                       ${g2.e1}
-  first example in third group                                        ${g3.e1}
+  first example in first group    ${g1.e1}
+  first example in second group   ${g2.e1}
+  first example in third group    ${g3.e1}
   """
-
-  // group of examples with a description for the group
-  "second group of examples" - new g2 {
-  }
-}            </code></pre>
+}
+            </code></pre>
             <p class="fragment roll-in">Note no <code>e1</code>'s in each group!</p>
           </section>
 
           <section>
             <pre><code class="scala">
 [info] GroupedSpecification
-[info]
+[info] 
 [info]   * first example in first group  - PENDING
 [info]   * first example in second group  - PENDING
 [info]   * first example in third group  - PENDING
-[info]
+[info] 
 [info] Total for specification GroupedSpecification
-[info] Finished in 7 ms
+[info] Finished in 6 ms
 [info] 3 examples, 0 failure, 0 error, 3 pending
             </code></pre>
             <p class="fragment roll-in">All pending examples are marked as <b>PENDING</b>.</p>
@@ -501,7 +511,7 @@ class GroupedSpecification extends Specification with Grouped { def is =  s2"""
           <section>
             <h3>Use cases</h3>
             <ul style="text-align: left;">
-              <li>Extension to "Groups of examples"</li>
+              <li>Extension to "Example groups"</li>
               <li>Separate specification from examples (code)</li>
             </ul>
           </section>
@@ -511,7 +521,7 @@ class GroupedSpecification extends Specification with Grouped { def is =  s2"""
 import org.specs2._
 import specification._
 
-class BulletedExamplesSpec extends script.Specification with Groups { def is = """
+class BulletedExamplesSpec extends Example { def is = """
   This is an introduction
 
   First section
@@ -521,22 +531,12 @@ class BulletedExamplesSpec extends script.Specification with Groups { def is = "
    + and the first example
    + and the second example
 
-  Second section
-  =============
-
-  Then another section
-   + and the third example
-   + and the fourth example
-
 """
+}
 
+trait Example extends script.Specification with Groups {
   "first section" - new group {
-    eg := 1 must_== 1
-    eg := 1 must_== 1
-  }
-
-  "second section" - new group {
-    eg := 1 must_== 1
+    eg := failure
   }
 }
             </code></pre>
@@ -546,26 +546,21 @@ class BulletedExamplesSpec extends script.Specification with Groups { def is = "
           <section>
             <pre><code class="scala">
 [info] BulletedExamplesSpec
-[info]
+[info] 
 [info]   This is an introduction
-[info]
+[info] 
 [info]   First section
 [info]   =============
-[info]
+[info] 
 [info]   A bit more text there.
-[info]    + and the first example
-[info]    + and the second example
-[info]
-[info]   Second section
-[info]   =============
-[info]
-[info]   Then another section
-[info]    + and the third example
-[info]    * and the fourth example  - PENDING - g2.e2
-[info]
+[error] x and the first example
+[error] failure - g1.e1 (BulletedExamplesSpec.scala:19)
+[info]    
+[info]    * and the second example  - PENDING - g1.e2
+[info] 
 [info] Total for specification BulletedExamplesSpec
-[info] Finished in 56 ms
-[info] 4 examples, 0 failure, 0 error, 1 pending
+[info] Finished in 9 ms
+[info] 2 examples, 1 failure, 0 error, 1 pending
             </code></pre>
             <p class="fragment roll-in">All pending examples are marked as <b>PENDING</b>.</p>
           </section>
