@@ -517,7 +517,8 @@ class GroupedSpecification extends Specification with Grouped { def is =  s2"""
           </section>
 
           <section>
-            <pre style="max-width: none; width: 110%"><code class="scala">
+            <br>
+            <pre style="max-width: none; width: 100%"><code class="scala">
 import org.specs2._
 import specification._
 
@@ -530,10 +531,10 @@ class BulletedExamplesSpec extends Example { def is = """
   A bit more text there.
    + and the first example
    + and the second example
-
 """
 }
-
+            </code></pre>
+            <pre style="max-width: none; width: 100%"><code class="scala">
 trait Example extends script.Specification with Groups {
   "first section" - new group {
     eg := failure
@@ -554,7 +555,7 @@ trait Example extends script.Specification with Groups {
 [info] 
 [info]   A bit more text there.
 [error] x and the first example
-[error] failure - g1.e1 (BulletedExamplesSpec.scala:19)
+[error] failure - g1.e1 (BulletedExamplesSpec.scala:18)
 [info]    
 [info]    * and the second example  - PENDING - g1.e2
 [info] 
@@ -564,6 +565,30 @@ trait Example extends script.Specification with Groups {
             </code></pre>
             <p class="fragment roll-in">All pending examples are marked as <b>PENDING</b>.</p>
           </section>
+
+          <section>
+            <br>
+            <p>Run a specific example or group of examples by name</p>
+            <pre><code class="scala">
+[specs2-sandbox]> testOnly BulletedExamplesSpec -- include g1.e1
+[error] x and the first example
+[error] failure - g1.e1 (BulletedExamplesSpec.scala:18)
+[info] BulletedExamplesSpec
+[info] 
+[info] Total for specification BulletedExamplesSpec
+[info] Finished in 9 ms
+[info] 1 example, 1 failure, 0 error
+            </code></pre>
+            <pre class="fragment roll-in"><code class="scala">
+[specs2-sandbox]> testOnly BulletedExamplesSpec -- include g1.e2
+[info] BulletedExamplesSpec* and the second example  - PENDING - g1.e2
+[info] 
+[info] Total for specification BulletedExamplesSpec
+[info] Finished in 7 ms
+[info] 1 example, 0 failure, 0 error, 1 pending
+            </code></pre>
+          </section>
+
           <section>
             <h3>Structure</h3>
             <ul>
