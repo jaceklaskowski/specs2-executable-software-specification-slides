@@ -107,15 +107,28 @@
         </section>
 
         <section>
-          <h2>How to get started</h2>
+          <section data-markdown>
+            <script type="text/template">
+## sbt build for specs2
 
-          <section data-transition="zoom">
-            <p><b>build.sbt</b></p>
-            <pre style="max-width: none; width: 100%"><code class="scala">
+**build.sbt**
+
+```
 resolvers += "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases"
 libraryDependencies += "org.specs2" %% "specs2-core" % "3.0" % "test"
-            </code></pre>
-            <aside class="notes">Acceptance specification style</aside>
+```
+
+The latest version: **3.0-20150307191330-fd443c8** (see next slide)
+            </script>
+          </section>
+          <section data-markdown>
+            <script type="text/template">
+## About versioning of specs2
+
+Quoting [the author on gitter](https://gitter.im/etorreborre/specs2?at=54fc116763f73cf44ba978f1):
+
+> frequent timestamped/commit versions, c.f. `3.0-20150307191330-fd443c8` instead of snapshots and once in a while an "official" version
+            </script>
           </section>
         </section>
 
@@ -124,7 +137,7 @@ libraryDependencies += "org.specs2" %% "specs2-core" % "3.0" % "test"
           <section>
             <h3>Use cases</h3>
             <ul  style="text-align: left;">
-              <li>A very effective way of grouping similar examples into one.</li>
+              <li>Effective way of grouping similar examples into one.</li>
               <li>Lots of expectations inside one example in a 'natural' tabular form.</li>
               <li>ASCII tables that contain sample values and the end result.</li>
             </ul>
@@ -133,33 +146,47 @@ libraryDependencies += "org.specs2" %% "specs2-core" % "3.0" % "test"
           <section>
             <br>
             <br>
-            <pre style="max-width: none; width: 115%"><code class="scala">
+            <pre style="max-width: none; width: 110%"><code class="scala">
 import org.specs2._
-import matcher.DataTables
 
-class DataTableSpec extends Specification with DataTables { def is = s2"""
+class DataTableSpec extends Specification with matcher.DataTables { def is = s2"""
 
     adding integers should just work in scala  $e1
   """
 
   def e1 =
-    "a"   | "b" | "c" |               // the header of the table, with `|` separated strings
-     2    !  2  !  4  |               // an example row
-     1    !  1  !  3  |> {            // the > operator to "execute" the table
-     (a, b, c) =>  a + b must_== c    // the expectation to check on each row
+    "a"   | "b" | "c" |        // the header of the table, with `|` separated strings
+     2    !  2  !  4  |        // an example row
+     1    !  1  !  2  |> {     // the > operator to "execute" the table
+    (a, b, c) =>  a + b === c  // the expectation to check on each row
   }
-
 }
             </code></pre>
           </section>
 
           <section>
+            <br><br>
             <h3>Structure</h3>
+            <pre><code class="scala">
+ "a" | "b" | "c" |
+  2  !  2  !  4  |
+  1  !  1  !  2  |> { (a, b, c) => a + b === c }
+            </code></pre>
             <ul>
-              <li>A header defining column names and rows holding values.</li>
-              <li>Column names separated with <b>|</b> (<i>pipe</i>).</li>
-              <li>Row values separated with <b>!</b> (<i>bang</i>).</li>
+              <li>A header defining <b>column names</b> separated by <b>|</b> (pipe)
+                <ul>
+                  <li>Up to <b>10</b> columns</li>
+                </ul>
+              </li>
+              <li><b>Rows</b> with values separated by <b>!</b> (bang)</li>
+              <li><b>|></b> (play) executes a table</li>
             </ul>
+            <pre><code class="scala">
+ "a" | "b" | "c" | "a" | "b" | "c" | "a" | "b" | "c" | "a" |
+  1  !  1  !  2  !  2  !  2  !  4  !  2  !  2  !  4  !  2  |> {
+  (a1, a2, a3, a4, a5, a6, a7, a8, a9, a10) => ok
+ }
+            </code></pre>
           </section>
 
           <section>
@@ -188,6 +215,19 @@ class DataTableSpec extends Specification with DataTables { def is = s2"""
 [info] 1 example, 0 failure, 0 error
             </code></pre>
           </section>
+
+          <section>
+            <h3>(More involved) example</h3>
+            <pre><code>
+def t2 =
+  "a" | "b" | "c" |
+   1  !  1  !  2
+
+def p2(a: Int, b: Int, c: Int) = success
+
+def e2 = t2 |> p2
+            </code></pre>
+          </section>
         </section>
 
         <section>
@@ -199,6 +239,7 @@ class DataTableSpec extends Specification with DataTables { def is = s2"""
             <ul style="text-align: left;">
               <li>Examples are so self-descriptive that a textual description feels redundant</li>
               <li>Demonstrating the use of a DSL or an API</li>
+              <li>Avoid stale or incorrect code in specification text because the API has changed</li>
             </ul>
           </section>
 
@@ -340,35 +381,56 @@ libraryDependencies += "org.specs2" %% "specs2-scalacheck" % "3.0" % "test"
           </section>
 
           <section>
-            <pre style="max-width: none; width: 110%"><code class="scala">
+            <pre style="max-width: none; width: 110%; height: 110%"><code class="scala">
+import org.scalacheck.{Gen, Arbitrary}
 import org.specs2._
+import org.scalacheck.Prop._
 
 class ScalaCheckSpec extends Specification with ScalaCheck { def is = s2"""
 
-    startsWith ${ prop { (a: String, b: String) => (a+b) must startWith(a) } }
-    endsWith   ${ prop { (a: String, b: String) => (a+b) must endWith(b) } }
-    substring  ${ prop { (a: String, b: String) => (a+b).substring(a.length) === b } }
-    addition and multiplication are related ${ prop { (a: Int) => a + a == 2 * a } }
+    A ScalaCheck property inside example ${ forAll { (i: Int) => i > 0 || i <= 0 } }
+
+    A `prop` method to create a property from a function
+      returning a match result
+      ${ prop { (i: Int) => i must be_>(0) or be_<=(0) } }
+      returning a boolean value
+      ${ prop { (i: Int) => i > 0 || i <= 0 } }
+      using an implication and a boolean value
+      ${ prop { (i: Int) => (i > 0) ==> (i > 0)}}
+
+    Custom `Arbitrary` instance for a parameter ${ prop { (i: Int) => i must be_>(0) }.setArbitrary(positiveInts) }
+    Custom minimum number of ok tests ${ prop { (i:Int) => (i > 0) ==> (i > 0) }.set(minTestsOk = 50) }
   """
+  val positiveInts = Arbitrary(Gen.choose(1, 5))
 }
             </code></pre>
-            <p class="fragment roll-in">Note the <b>4</b> examples only.</p>
+            <p class="fragment roll-in">Note the <b>6</b> examples only.</p>
           </section>
 
           <section>
+            <br><br>
             <pre><code class="scala">
 [info] ScalaCheckSpec
-[info]
-[info]     + startsWith
-[info]     + endsWith
-[info]     + substring
-[info]     + addition and multiplication are related
-[info]
+[info] 
+[info]     + A ScalaCheck property inside example
+[info] 
+[info]     A `prop` method to create a property from a function
+[info]       returning a match result
+[info]        + prop { (i: Int) => i must be_>(0) or be_<=(0) } 
+[info]       returning a boolean value
+[info]        + prop { (i: Int) => i > 0 || i <= 0 } 
+[info]       using an implication and a boolean value
+[info]        + prop { (i: Int) => (i > 0) ==> (i > 0)}
+[info] 
+[info]     + Custom `Arbitrary` instance for a parameter
+[info]     + Custom minimum number of ok tests
+[info] 
 [info] Total for specification ScalaCheckSpec
-[info] Finished in 30 ms
-[info] 4 examples, 400 expectations, 0 failure, 0 error
+[info] Finished in 111 ms
+[info] 6 examples, 550 expectations, 0 failure, 0 error
             </code></pre>
-            <p class="fragment roll-in">4 examples make for <b>400</b> expectations!</p>
+            <p class="fragment roll-in">6 examples make for <b>550</b> expectations!</p>
+            <p class="fragment roll-in">Wait! Why are there <b>550</b> expectations, not <b>600</b>?</p>
           </section>
 
           <section>
