@@ -563,6 +563,39 @@ class GroupedSpecification extends Specification with Grouped { def is =  s2"""
             </code></pre>
             <p class="fragment roll-in">All pending examples are marked as <b>PENDING</b>.</p>
           </section>
+
+          <section>
+            <br><br>
+            <p>(With a single example)</p>
+            <pre style="max-width: none; width: 110%"><code class="scala">import org.specs2._
+import specification.Grouped
+
+class GroupedSpecification extends Specification with Grouped { def is =  s2"""
+
+  first example in first group    ${g1.e1}
+  first example in second group   ${g2.e1}
+  first example in third group    ${g3.e1}
+  """
+
+  new g3 {
+    e1 := success
+  }
+}</code></pre>
+            <p class="fragment roll-in">Mind <code>g2</code> and <code>g3</code> - they don't even exist!</p>
+          </section>
+
+          <section>
+            <pre><code class="scala">[info] GroupedSpecification
+[info]
+[info]   * first example in first group  - PENDING
+[info]   * first example in second group  - PENDING
+[info]   + first example in third group
+[info]
+[info] Total for specification GroupedSpecification
+[info] Finished in 4 ms
+[info] 3 examples, 0 failure, 0 error, 2 pending</code></pre>
+            <p class="fragment roll-in">All "missing" examples are <b>PENDING</b>.</p>
+          </section>
         </section>
 
         <section>
