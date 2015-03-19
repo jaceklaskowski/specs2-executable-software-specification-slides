@@ -510,11 +510,22 @@ libraryDependencies += "org.specs2" %% "specs2-html" % "3.1" % "test"
           </section>
 
           <section>
-            <h3>Use cases</h3>
-            <ul style="text-align: left;">
-              <li>Create human-readable HTML documentation</li>
-            </ul>
-            <img width="70%" src="images/specs-specificationwithforms-html.png">
+            <p>specs2 warns you about the missing dependency <code>specs2-html</code> <i>only</i> with <code>verbose</code> option</p>
+            <pre style="max-width: none; width: 100%"><code>
+[specs2-sandbox]> testOnly SpecificationWithForms -- html verbose
+no console printer defined
+no JUnit XML printer defined
+
+cannot create a HTML printer. Please check that specs2-html is on the classpath
+
+org.specs2.reporter.HtmlPrinter$
+java.lang.ClassLoader.findClass(ClassLoader.java:530)
+...
+no Markdown printer defined
+no custom printer defined
+no custom notifier defined
+[info] Passed: Total 0, Failed 0, Errors 0, Passed 0
+</code></pre>
           </section>
 
         </section>
