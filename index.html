@@ -447,6 +447,39 @@ class ScalaCheckSpec extends Specification with ScalaCheck { def is = s2"""
               <li>Use the resulting Prop as your example body.</li>
             </ul>
           </section>
+          <section data-markdown>
+            <script type="text/template">
+<br>
+### Builders (for Builder Pattern)
+
+```
+import org.scalacheck._, Arbitrary._, Gen._
+
+object Builders {
+  lazy val applicantGenerator: Gen[Applicant] =
+    for {
+      number    <- tenRandomDigits
+      surname   <- arbitrary[String]
+      forenames <- arbitrary[Option[String]]
+    } yield Applicant(number, surname, forenames)
+
+  val tenRandomDigits =
+    listOfN(10, Gen.numChar).map(_.mkString)
+
+  implicit class ApplicantOps(app: Applicant) {
+    def withNoForenames: Applicant =
+      app.copy(forenames = None)
+  }
+
+  implicit val applicant: Arbitrary[Applicant] =
+    Arbitrary{ applicantGenerator }
+}
+```
+
+* Borrowed from the talk [Code Reviews Gems](https://skillsmatter.com/skillscasts/5848-code-reviews-gems)
+
+            </script>
+          </section>
         </section>
 
         <section>
