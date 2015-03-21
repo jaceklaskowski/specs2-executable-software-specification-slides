@@ -52,21 +52,20 @@
           <h2>Agenda</h2>
 
           <ul>
-            <li>Why specs2 (when ScalaTest around)</li>
-            <li>DataTables</li>
-            <li>Auto-examples</li>
-            <li>Forms (aka FormsPage)</li>
-            <li>Integration with ScalaCheck</li>
-            <li>HTML Output for Specifications</li>
-            <li>Example Groups</li>
-            <li>Auto-numbered Examples</li>
+            <li><a href="#/why">Why specs2</a> (when ScalaTest around)</li>
+            <li><a href="#/datatables">DataTables</a></li>
+            <li><a href="#/auto-examples">Auto-examples</a></li>
+            <li><a href="#/forms">Forms (aka FormsPage)</a></li>
+            <li><a href="#/scalacheck">Integration with ScalaCheck</a></li>
+            <li><a href="#/html-output">HTML Output for Specifications</a></li>
+            <li><a href="#/example-groups">Example Groups</a></li>
+            <li><a href="#/auto-numbered-examples">Auto-numbered Examples</a></li>
           </ul>
         </section>
 
 
-        <section>
+        <section id="why">
           <h2>Why specs2</h2>
-
           <section>
             <br>
             <p>
@@ -75,7 +74,6 @@
 
             <aside class="notes">...</aside>
           </section>
-
           <section>
             <br>
             <p>
@@ -84,7 +82,6 @@
 
             <aside class="notes">...</aside>
           </section>
-
           <section>
             <br>
             <p>
@@ -94,7 +91,6 @@
             <aside class="notes">...</aside>
           </section>
         </section>
-
         <section data-transition="zoom" data-markdown>
           <script type="text/template">
             ## Vocabulary
@@ -105,7 +101,6 @@
 * **Example description** (specs2)
           </script>
         </section>
-
         <section>
           <section data-markdown>
             <script type="text/template">
@@ -130,7 +125,7 @@ Quoting [the author on gitter](https://gitter.im/etorreborre/specs2?at=54fc11676
           </section>
         </section>
 
-        <section>
+        <section id="datatables">
           <h2>DataTables</h2>
           <section>
             <h3>Use cases</h3>
@@ -140,7 +135,6 @@ Quoting [the author on gitter](https://gitter.im/etorreborre/specs2?at=54fc11676
               <li>ASCII tables that contain sample values and the end result.</li>
             </ul>
           </section>
-
           <section>
             <br>
             <br>
@@ -161,7 +155,6 @@ class DataTableSpec extends Specification with matcher.DataTables { def is = s2"
 }
             </code></pre>
           </section>
-
           <section>
             <br><br>
             <h3>Structure</h3>
@@ -186,7 +179,6 @@ class DataTableSpec extends Specification with matcher.DataTables { def is = s2"
  }
             </code></pre>
           </section>
-
           <section>
             <br>
             <br>
@@ -213,7 +205,6 @@ class DataTableSpec extends Specification with matcher.DataTables { def is = s2"
 [info] 1 example, 0 failure, 0 error
             </code></pre>
           </section>
-
           <section>
             <h3>(More involved) example</h3>
             <pre><code>
@@ -228,7 +219,7 @@ def e2 = t2 |> p2
           </section>
         </section>
 
-        <section>
+        <section id="auto-examples">
 
           <h2>Auto-examples</h2>
 
@@ -240,7 +231,6 @@ def e2 = t2 |> p2
               <li>Avoid stale or incorrect code in specification text because the API has changed</li>
             </ul>
           </section>
-
           <section>
             <pre style="max-width: none; width: 100%"><code class="scala">
 import org.specs2._
@@ -258,7 +248,6 @@ class AutoExampleSpec extends Specification { def is = s2"""
               <li>Uses <code>success</code> from specs2</li>
             </ul>
           </section>
-
           <section>
             <br>
             <pre><code class="scala">
@@ -283,7 +272,7 @@ s2"""
 
         </section>
 
-        <section>
+        <section id="forms">
 
           <h2>Forms (aka FormsPage)</h2>
 
@@ -296,7 +285,6 @@ libraryDependencies += "org.specs2" %% "specs2-form" % "3.1" % "test"
 
             <aside class="notes">Acceptance specification style</aside>
           </section>
-
           <section>
             <pre style="max-width: none; width: 115%"><code class="scala">
 import org.specs2._
@@ -315,7 +303,6 @@ class SpecificationWithForms extends Specification with specification.Forms { de
 }
             </code></pre>
           </section>
-
           <section>
             <pre style="max-width: none; width: 115%"><code class="scala">
 [info] SpecificationWithForms
@@ -331,7 +318,6 @@ class SpecificationWithForms extends Specification with specification.Forms { de
             </code></pre>
             <p class="fragment roll-in">Formatting is not an issue since the aim is the HTML page.</p>
           </section>
-
           <section>
             <br>
             <p>
@@ -340,7 +326,6 @@ class SpecificationWithForms extends Specification with specification.Forms { de
 
             <aside class="notes">...</aside>
           </section>
-
           <section>
             <h3>Use cases</h3>
             <ul style="text-align: left;">
@@ -349,10 +334,9 @@ class SpecificationWithForms extends Specification with specification.Forms { de
               <li>Reusable pieces of specification with complex forms built out of simple ones</li>
             </ul>
           </section>
-
         </section>
 
-        <section>
+        <section id="scalacheck">
 
           <h2>Integration with ScalaCheck</h2>
 
@@ -365,7 +349,6 @@ libraryDependencies += "org.specs2" %% "specs2-scalacheck" % "3.1" % "test"
 
             <aside class="notes">...</aside>
           </section>
-
           <section>
             <h3>Use cases</h3>
             <ul style="text-align: left;">
@@ -377,7 +360,6 @@ libraryDependencies += "org.specs2" %% "specs2-scalacheck" % "3.1" % "test"
               </li>
             </ul>
           </section>
-
           <section>
             <pre style="max-width: none; width: 110%; height: 110%"><code class="scala">
 import org.scalacheck.{Gen, Arbitrary}
@@ -404,7 +386,6 @@ class ScalaCheckSpec extends Specification with ScalaCheck { def is = s2"""
             </code></pre>
             <p class="fragment roll-in">Note the <b>6</b> examples only.</p>
           </section>
-
           <section>
             <br><br>
             <pre><code class="scala">
@@ -430,7 +411,6 @@ class ScalaCheckSpec extends Specification with ScalaCheck { def is = s2"""
             <p class="fragment roll-in">6 examples make for <b>550</b> expectations!</p>
             <p class="fragment roll-in">Wait! Why are there <b>550</b> expectations, not <b>600</b>?</p>
           </section>
-
           <section>
             <h3>Structure</h3>
             <pre style="max-width: none; width: 100%"><code>
@@ -482,7 +462,8 @@ object Builders {
           </section>
         </section>
 
-        <section>
+        <section id="html-output">
+
           <h2>HTML output for specifications</h2>
 
           <section data-transition="zoom">
@@ -494,7 +475,6 @@ libraryDependencies += "org.specs2" %% "specs2-html" % "3.1" % "test"
 
             <aside class="notes">...</aside>
           </section>
-
           <section>
             <br>
             <br>
@@ -517,7 +497,6 @@ libraryDependencies += "org.specs2" %% "specs2-html" % "3.1" % "test"
               <a href="http://johnmacfarlane.net/pandoc/">http://johnmacfarlane.net/pandoc/</a> - a universal document converter
             </p>
           </section>
-
           <section>
             <pre style="max-width: none; width: 100%"><code>
 ➜  specs2-sandbox  sbt "testOnly SpecificationWithForms -- html"
@@ -531,7 +510,6 @@ libraryDependencies += "org.specs2" %% "specs2-html" % "3.1" % "test"
 ➜  specs2-sandbox  open target/specs2-reports/SpecificationWithForms.html
             </code></pre>
           </section>
-
           <section>
             <br>
             <p>
@@ -541,7 +519,6 @@ libraryDependencies += "org.specs2" %% "specs2-html" % "3.1" % "test"
 
             <aside class="notes">...</aside>
           </section>
-
           <section>
             <p>specs2 warns you about the missing dependency <code>specs2-html</code> <i>only</i> with <code>verbose</code> option</p>
             <pre style="max-width: none; width: 100%"><code>
@@ -560,10 +537,10 @@ no custom notifier defined
 [info] Passed: Total 0, Failed 0, Errors 0, Passed 0
 </code></pre>
           </section>
-
         </section>
 
-        <section>
+        <section id="example-groups">
+
           <h2>Example Groups</h2>
 
           <section>
@@ -574,7 +551,6 @@ no custom notifier defined
               <li>No need to use the auto-generated example names in specification!</li>
             </ul>
           </section>
-
           <section>
             <br><br>
             <p>(With explicit auto-generated example names)</p>
@@ -592,7 +568,6 @@ class GroupedSpecification extends Specification with Grouped { def is =  s2"""
             </code></pre>
             <p class="fragment roll-in">Note no <code>e1</code>'s in each group!</p>
           </section>
-
           <section>
             <pre><code class="scala">
 [info] GroupedSpecification
@@ -607,7 +582,6 @@ class GroupedSpecification extends Specification with Grouped { def is =  s2"""
             </code></pre>
             <p class="fragment roll-in">All pending examples are marked as <b>PENDING</b>.</p>
           </section>
-
           <section>
             <br><br>
             <p>(With a single example)</p>
@@ -627,7 +601,6 @@ class GroupedSpecification extends Specification with Grouped { def is =  s2"""
 }</code></pre>
             <p class="fragment roll-in">Mind <code>g2</code> and <code>g3</code> - they don't even exist!</p>
           </section>
-
           <section>
             <pre><code class="scala">[info] GroupedSpecification
 [info]
@@ -642,7 +615,8 @@ class GroupedSpecification extends Specification with Grouped { def is =  s2"""
           </section>
         </section>
 
-        <section>
+        <section id="auto-numbered-examples">
+
           <h2>Auto-numbered Examples</h2>
 
           <section>
@@ -652,7 +626,6 @@ class GroupedSpecification extends Specification with Grouped { def is =  s2"""
               <li>Separate specification from examples (code)</li>
             </ul>
           </section>
-
           <section>
             <br>
             <pre style="max-width: none; width: 100%"><code class="scala">
@@ -680,7 +653,6 @@ trait Example extends script.Specification with Groups {
             </code></pre>
             <p class="fragment roll-in">Note no code (example) in specification!</p>
           </section>
-
           <section>
             <pre><code class="scala">
 [info] BulletedExamplesSpec
@@ -702,7 +674,6 @@ trait Example extends script.Specification with Groups {
             </code></pre>
             <p class="fragment roll-in">All pending examples are marked as <b>PENDING</b>.</p>
           </section>
-
           <section>
             <br>
             <p>Run a specific example or group of examples by name</p>
@@ -725,7 +696,6 @@ trait Example extends script.Specification with Groups {
 [info] 1 example, 0 failure, 0 error, 1 pending
             </code></pre>
           </section>
-
           <section>
             <h3>Structure</h3>
             <ul>
@@ -749,7 +719,6 @@ trait Example extends script.Specification with Groups {
         </section>
 
       </div>
-
     </div>
 
     <script src="lib/js/head.min.js"></script>
